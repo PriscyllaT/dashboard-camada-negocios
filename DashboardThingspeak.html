@@ -4,22 +4,44 @@
 	<meta charset='utf-8' />
 	<title>Dashboard</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" type="text/css" href="css/slidecontainer.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
     <script src="js/dashboard.js"></script>
     <script src="js/mapbox.js"></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm -->
 </head>
 <body>
-
-<!-- 	<h1>Dashboard de Análise de Arboviroses - Fortaleza</h1> -->
-	<button type="button" onclick="mostrarGraficoChuva()">
-		Mostrar Gráfico de Chuva
-	</button>
-	<button type="button" onclick="pegarCasosArboviroses()">
-		Mostrar Mapa OSM
-	</button>
+<!-- 	<div class ="header">
+    	<h2 class="title">Teste</h2>	
+    </div> -->
+    <!-- Top container -->
+<div class="w3-bar w3-top w3-blue w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right">Logo</span>
+</div>
 	<p = id="chuva"></p>
 	<p = id="mapa"></p>
 	<div id='map' style='width: 400px; height: 300px;'></div>
+	<div class="slidecontainer">
+	<input type="range" min="1" max="12" value="1" class="slider" id="myRange">
+   		<p>Mês: <span id="demo"></span></p>
+    </div>
+     <script>
+	 	var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		output.innerHTML = slider.value;
+
+		slider.oninput = function() {
+		  output.innerHTML = this.value;
+		  mostrarGraficoChuva()
+		  pegarCasosArboviroses()
+		}
+	</script>
+
 </body>
 </html>
