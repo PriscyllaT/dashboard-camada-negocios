@@ -16,20 +16,35 @@
 <!-- https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm -->
 </head>
 <body>
-<!-- 	<div class ="header">
+	<div class ="header">
     	<h2 class="title">Teste</h2>	
-    </div> -->
+    </div>
     <!-- Top container -->
-<div class="w3-bar w3-top w3-blue w3-large" style="z-index:4">
+<!-- <div class="w3-bar w3-top w3-blue w3-large" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
   <span class="w3-bar-item w3-right">Logo</span>
-</div>
-	<p = id="chuva"></p>
-	<p = id="mapa"></p>
-	<div id='map' style='width: 400px; height: 300px;'></div>
+</div> -->
+
+    <div class="w3-row-padding w3-padding-16" id="dash">
+	    <div class="w3-half">
+	    	<p = id="chuva"></p>
+	    </div>
+	    <div class="w3-half">
+	    	<p = id="mapa"></p>
+		<div class="mapa" id='map' style='width: 400px; height: 300px;'></div>
+	    </div>
+    </div>
+<!-- 	<div>
+		<p = id="chuva"></p>
+	   	<p = id="mapa"></p>
+		<div id='map' style='width: 400px; height: 300px;'></div>
+	</div>
+	     -->
+
+	
 	<div class="slidecontainer">
 	<input type="range" min="1" max="12" value="1" class="slider" id="myRange">
-   		<p>Mês: <span id="demo"></span></p>
+   		<h3 class="title">Mês: <span id="demo"></span></h3>
     </div>
      <script>
 	 	var slider = document.getElementById("myRange");
@@ -38,8 +53,8 @@
 
 		slider.oninput = function() {
 		  output.innerHTML = this.value;
-		  mostrarGraficoChuva()
-		  pegarCasosArboviroses()
+		   mostrarGraficoChuva()
+		  // pegarCasosArboviroses()
 		}
 	</script>
 
