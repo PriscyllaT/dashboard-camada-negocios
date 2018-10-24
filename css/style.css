@@ -24,3 +24,8 @@ h3.title{
 	padding: 5px 0;
 	margin: 0px;
 }
+
+h6.title{
+	color: #000066;
+	letter-spacing: -1px;
+}
