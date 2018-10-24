@@ -14,8 +14,148 @@ function pegarCasosArboviroses() {
 
 }
 
+function loadJSON(file, callback) {   
+
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', file, true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+ }
+
+function pici(jsonRegionais, map){
+    //r1, r3, centro,
+      //console.log(jsonRegionais.features[4]);
+        map.addSource("regionaisContornoPici", {
+        type: "geojson",
+        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+        data: {
+        type: "FeatureCollection",
+        totalFeatures: 3,
+        features: [jsonRegionais.features[0],jsonRegionais.features[2],jsonRegionais.features[6]],
+         }
+        });
+
+        map.addLayer({
+            'id': 'pici',
+            'type': 'fill',
+            'source':'regionaisContornoPici',
+            'layout': {},
+            'paint': {
+                'fill-color': '#111ddf',
+                'fill-opacity': 0.8
+            }
+        });
+
+        
+
+ }
+function edq(jsonRegionais, map){
+    //r2, r6 cima
+
+        map.addSource("regionaisContornoEdQ", {
+        type: "geojson",
+        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+        data: {
+        type: "FeatureCollection",
+        totalFeatures: 2,
+        features: [jsonRegionais.features[1],jsonRegionais.features[5]],
+         }
+        });
+
+        map.addLayer({
+            'id': 'edq',
+            'type': 'fill',
+            'source':'regionaisContornoEdQ',
+            'layout': {},
+            'paint': {
+                'fill-color': '#111ddf',
+                'fill-opacity': 0.8
+            }
+        });
+ }
+
+
+ function messejana(jsonRegionais, map){
+    //6
+
+        map.addSource("regionaisContornoMessejana", {
+        type: "geojson",
+        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+        data: jsonRegionais.features[5],
+       
+
+        });
+
+        map.addLayer({
+            'id': 'messejana',
+            'type': 'fill',
+            'source':'regionaisContornoMessejana',
+            'layout': {},
+            'paint': {
+                'fill-color': '#3399ff',
+                'fill-opacity': 0.8
+            }
+        });
+ }
+function castelao(jsonRegionais, map){//itaperi
+    //r4, r5
+        map.addSource("regionaisContornoCastelao", {
+        type: "geojson",
+        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+        data: {
+        type: "FeatureCollection",
+        totalFeatures: 2,
+        features: [jsonRegionais.features[3],jsonRegionais.features[4]],
+         }
+        });
+
+        map.addLayer({
+            'id': 'castelao',
+            'type': 'fill',
+            'source':'regionaisContornoCastelao',
+            'layout': {},
+            'paint': {
+                'fill-color': '#bce8fa',
+                'fill-opacity': 0.8
+            }
+        });
+ }
+
 function carregarContornosBairroRegional(map){
+    var regionaisJson;
     var regionais = 'https://raw.githubusercontent.com/PriscyllaT/dashboard/master/bairrosregionais.json';
+    loadJSON(regionais, function(response) {
+        var regionaisJson = JSON.parse(response);
+        map.addLayer({
+          'id': 'regionais',
+          'type': 'line',
+          'source': {
+              'type': 'geojson',
+              'data': regionaisJson
+          },
+          'layout': {},
+          'paint':{
+              'line-width': 3
+          }
+      });  
+
+       pici(regionaisJson, map);
+        castelao(regionaisJson, map);
+        messejana(regionaisJson, map);
+        edq(regionaisJson, map);  
+    });
+
+
     var bairros = 'https://raw.githubusercontent.com/PriscyllaT/dashboard/master/limitebairro.json';
     map.addLayer({
             'id': 'bairros',
@@ -30,25 +170,16 @@ function carregarContornosBairroRegional(map){
             }
         });
           
-    map.addLayer({
-          'id': 'regionais',
-          'type': 'line',
-          'source': {
-              'type': 'geojson',
-              'data': regionais
-          },
-          'layout': {},
-          'paint':{
-              'line-width': 3
-          }
-      });       
+    
 }
+
+
 
 
 function exibirOcorrencias(responseText){
   
     var jsonResposta = JSON.parse(responseText)
-    console.log(jsonResposta)
+   // console.log(jsonResposta)
     var ocorrencias = jsonResposta.feeds
     var arrayLocalizacaoOcorrencias = []
     var mensagem = "Ponto"
@@ -71,7 +202,7 @@ function exibirOcorrencias(responseText){
          arrayLocalizacaoOcorrencias.push(json)
     }
 
-    console.log(json)
+    //console.log(json)
    
     var geojson = { 
         "type": "FeatureCollection",
@@ -88,7 +219,7 @@ function exibirOcorrencias(responseText){
 
 map.on('load', function () {
 
-carregarContornosBairroRegional(map)
+
 
 map.addSource("ocorrencias", {
         type: "geojson",
@@ -141,7 +272,8 @@ map.addLayer({
         }
     });
 
-});
 
+});
+carregarContornosBairroRegional(map)
 
 }   
