@@ -1,74 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset='utf-8' />
-	<title>Dashboard</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta charset='utf-8'/>
+    <title>Dashboard</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <link rel="stylesheet" type="text/css" href="css/slidecontainer.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
     <script src="js/dashboard.js"></script>
     <script src="js/mapbox.js"></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm -->
 </head>
 <body>
-	<div class ="header">
-    	<h2 class="title">Dashboard Arboviroses - Fortaleza</h2>	
-    </div>
-    <!-- Top container -->
-<!-- <div class="w3-bar w3-top w3-blue w3-large" style="z-index:4">
-  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right">Logo</span>
-</div> -->
-  <div class="w3-panel" style="margin:10 -16px">
+<div class="header">
+    <h2 class="title">Dashboard Arboviroses - Fortaleza</h2>
+</div>
+<div class="w3-panel" style="margin:10 -16px">
     <div class="w3-row-padding" style="margin:0 -16px">
-    	<div class="w3-half">
-	    	<h6 class="title">Casos de Arboviroses e Pluviometria por região</h6>
-	    	<p = id="mapa"></p>
-			<div class="mapa" id='map' style='width: 500px; height: 400px;'></div>
-			<h6 class="title">Casos de Arboviroses</h6>
-				<label for="2" style="background-color: #51bbd6; color:#51bbd6">__</label>
-				<h7> - 0 a 100 </h7>
-				<label for="2" style="background-color: #f1f075; color:#f1f075">__</label>
-				<h7>- 100 a 750 </h7>
-				<label for="2" style="background-color: #f28cb1; color:#f28cb1">__</label>
-				<h7>- 750 a mais </h7>
-			<h6 class="title">Pluviometria</h6>
-				<label for="2" style="background-color: #bce8fa; color:#bce8fa">__</label>
-				<h7>- 0 a 100 </h7>
-				<label for="2" style="background-color: #6666ff; color:#6666ff">__</label>
-				<h7>- 100 a 750 </h7>
-				<label for="2" style="background-color: #111ddf; color:#111ddf">__</label>
-				<h7>- 750 a mais </h7>
-				
-	    </div>
-   		<div class="w3-half">
-   			 <h6 class="title">Temperatura</h6>
-	    	<p = id="chuva"></p>
-	    </div>
-    </div>
-  </div>
-	    
-	
-	<div class="slidecontainer">
-	<input type="range" min="1" max="12" value="1" class="slider" id="myRange">
-   		<h3 class="title">Mês: <span id="demo"></span></h3>
-    </div>
-     <script>
-	 	var slider = document.getElementById("myRange");
-		var output = document.getElementById("demo");
-		output.innerHTML = slider.value;
+        <div class="w3-half">
+            <h6 class="title">Casos de Arboviroses e Pluviometria por região</h6>
+            <p = id="mapa"></p>
+            <div class="mapa" id='map' style='width: 500px; height: 400px;'></div>
+            <h6 class="title">Casos de Arboviroses</h6>
+            <label for="2" style="background-color: #51bbd6; color:#51bbd6">__</label>
+            <h7> - 0 a 100</h7>
+            <label for="2" style="background-color: #f1f075; color:#f1f075">__</label>
+            <h7>- 100 a 750</h7>
+            <label for="2" style="background-color: #f28cb1; color:#f28cb1">__</label>
+            <h7>- 750 a mais</h7>
+            <h6 class="title">Pluviometria</h6>
+            <label for="2" style="background-color: #bce8fa; color:#bce8fa">__</label>
+            <h7>- 0 a 100</h7>
+            <label for="2" style="background-color: #6666ff; color:#6666ff">__</label>
+            <h7>- 100 a 750</h7>
+            <label for="2" style="background-color: #111ddf; color:#111ddf">__</label>
+            <h7>- 750 a mais</h7>
 
-		slider.oninput = function() {
-		  output.innerHTML = this.value;
-		   mostrarGraficoTemperatura()
-		   pegarCasosArboviroses()
-		}
-	</script>
+        </div>
+        <div class="w3-half">
+            <h6 class="title">Temperatura</h6>
+            <p = id="chuva"></p>
+        </div>
+    </div>
+</div>
+<div class="slidecontainer">
+    <input type="range" min="1" max="12" value="1" class="slider" id="range">
+    <h3 class="title">Mês: <span id="mes"></span></h3>
+</div>
+<script>
+	 	inicializar()
+</script>
 
 </body>
 </html>
+
