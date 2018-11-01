@@ -8,7 +8,8 @@ function pegarCasosArboviroses() {
                 exibirOcorrencias(this.responseText)
         }
     }
-    xhttp.open("GET", "https://api.thingspeak.com/channels/494997/feeds.json?results=30000", true)
+    url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
+    xhttp.open("GET", url, true)
 
     xhttp.send()
 
