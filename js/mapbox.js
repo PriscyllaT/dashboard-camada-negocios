@@ -1,18 +1,43 @@
 
-function pegarCasosArboviroses() {
+function pegarCasosArboviroses(mes) {
     var xhttp = new XMLHttpRequest();
+    var semana = 4;
+    var resultado = []
+    var mesInicio = mes
+    var mesFim = mes + 1
+    var dia = 1
+    var incremento = 7
 
-    xhttp.onreadystatechange = function (){
-        if (xhttp.readyState == 4) {
-            if (xhttp.status = 200)
-                exibirOcorrencias(this.responseText)
+        requisicao(mesInicio,mesFim,xhttp,dia)
+        
+        xhttp.onreadystatechange = function (){
+            if (xhttp.readyState == 4) {
+                if (xhttp.status = 200)
+                       console.log(semana)
+                       if(semana == 0){
+                         console.log(resultado)
+                          exibirOcorrencias(resultado)
+                        }else{
+
+                            var jsonResposta = JSON.parse(this.responseText)
+                            var ocorrencias = jsonResposta.feeds
+                            resultado.push(ocorrencias)
+                            dia = dia + 7
+                            requisicao(mesInicio,mesFim,xhttp,dia)
+                            semana--
+                       }
+                  }
+            }
         }
-    }
-    url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
-    xhttp.open("GET", url, true)
+       
 
-    xhttp.send()
+function requisicao(mesInicio, mesFim,xhttp,dia){
+        url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-" + mesInicio.toString() + "-"+ dia.toString() +"%2000:00:00&end=2015-"
+                                                                             + mesInicio.toString() + "-" + (dia + 7).toString() + "%2000:00:00"
+        console.log(url)
+        xhttp.open("GET", url, true)
 
+        xhttp.send()       
 }
 
 function pegarDadosPluviometria(){
@@ -181,12 +206,14 @@ function carregarContornosBairroRegional(map){
 
 function exibirOcorrencias(responseText){
   
-    var jsonResposta = JSON.parse(responseText)
+   // var jsonResposta = JSON.parse(responseText)
    // console.log(jsonResposta)
-    var ocorrencias = jsonResposta.feeds
+  //  var ocorrencias = jsonResposta.feeds
+    var ocorrencias = responseText
     var arrayLocalizacaoOcorrencias = []
     var mensagem = "Ponto"
     
+    console.log(ocorrencias.length)
     for(i = 0; i < ocorrencias.length; i++){
        
         var latitude  = parseFloat(ocorrencias[i].field7)
@@ -277,6 +304,7 @@ map.addLayer({
 
 
 });
-carregarContornosBairroRegional(map)
+setTimeout(carregarContornosBairroRegional(map), 300);
+
 
 }   
