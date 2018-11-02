@@ -8,10 +8,26 @@ function pegarCasosArboviroses() {
                 exibirOcorrencias(this.responseText)
         }
     }
-    xhttp.open("GET", "https://api.thingspeak.com/channels/494997/feeds.json?results=30000", true)
+    url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
+    xhttp.open("GET", url, true)
 
     xhttp.send()
 
+}
+
+function pegarDadosPluviometria(){
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function (){
+        if (xhttp.readyState == 4) {
+            if (xhttp.status = 200)
+                exibirOcorrencias(this.responseText)
+        }
+    }
+    url = "http://api.thingspeak.com/channels/616353/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
+    xhttp.open("GET", url, true)
+
+    xhttp.send()
 }
 
 function loadJSON(file, callback) {   
@@ -30,11 +46,8 @@ function loadJSON(file, callback) {
 
 function pici(jsonRegionais, map){
     //r1, r3, centro,
-      //console.log(jsonRegionais.features[4]);
         map.addSource("regionaisContornoPici", {
         type: "geojson",
-        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
         data: {
         type: "FeatureCollection",
         totalFeatures: 3,
@@ -58,11 +71,8 @@ function pici(jsonRegionais, map){
  }
 function edq(jsonRegionais, map){
     //r2, r6 cima
-
         map.addSource("regionaisContornoEdQ", {
         type: "geojson",
-        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
         data: {
         type: "FeatureCollection",
         totalFeatures: 2,
@@ -85,11 +95,8 @@ function edq(jsonRegionais, map){
 
  function messejana(jsonRegionais, map){
     //6
-
         map.addSource("regionaisContornoMessejana", {
         type: "geojson",
-        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
         data: jsonRegionais.features[5],
        
 
@@ -110,8 +117,6 @@ function castelao(jsonRegionais, map){//itaperi
     //r4, r5
         map.addSource("regionaisContornoCastelao", {
         type: "geojson",
-        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
         data: {
         type: "FeatureCollection",
         totalFeatures: 2,
@@ -149,7 +154,7 @@ function carregarContornosBairroRegional(map){
           }
       });  
 
-       pici(regionaisJson, map);
+        pici(regionaisJson, map);
         castelao(regionaisJson, map);
         messejana(regionaisJson, map);
         edq(regionaisJson, map);  
@@ -172,8 +177,6 @@ function carregarContornosBairroRegional(map){
           
     
 }
-
-
 
 
 function exibirOcorrencias(responseText){
