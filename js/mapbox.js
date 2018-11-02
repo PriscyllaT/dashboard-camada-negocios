@@ -1,18 +1,60 @@
 
-function pegarCasosArboviroses() {
+function pegarCasosArboviroses(mes) {
     var xhttp = new XMLHttpRequest();
+    var semana = 1;
+    var resultado = []
+    var mesInicio = mes
+    var mesFim = parseInt(mes) + 1
+         requisicao(mesInicio,mesFim,xhttp,semana)
+        
+        xhttp.onreadystatechange = function (){
+            if (xhttp.readyState == 4) {
+                if (xhttp.status = 200)
+                       
+                       if(semana == 5){
+                         console.log(resultado)
+                          exibirOcorrencias(resultado)
+                        }else{
 
-    xhttp.onreadystatechange = function (){
-        if (xhttp.readyState == 4) {
-            if (xhttp.status = 200)
-                exibirOcorrencias(this.responseText)
+                            var jsonResposta = JSON.parse(this.responseText)
+                            var ocorrencias = jsonResposta.feeds
+                            console.log(ocorrencias)
+                            resultado = resultado.concat(ocorrencias)
+                            requisicao(mesInicio,mesFim,xhttp,semana)
+                            semana++
+                       }
+                  }
+            }
         }
-    }
-    url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
-    xhttp.open("GET", url, true)
+       
 
-    xhttp.send()
+function requisicao(mesInicio, mesFim,xhttp,semana){
 
+        var url = "";
+        switch(semana) {
+            case 1:
+            url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-" + mesInicio.toString() + "-01%2000:00:00&end=2015-"
+                                                                                 + mesInicio.toString() + "-08%2000:00:00";
+                                                                              
+            break;
+            case 2:
+            url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-" + mesInicio.toString() + "-09%2000:00:00&end=2015-"
+                                                                                 + mesInicio.toString() + "-16%2000:00:00";
+            break;
+            case 3:
+            url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-" + mesInicio.toString() + "-17%2000:00:00&end=2015-"
+                                                                                 + mesInicio.toString() + "-24%2000:00:00";
+            break;
+            case 4:
+            url = "http://api.thingspeak.com/channels/581830/feeds.json?start=2015-" + mesInicio.toString() + "-25%2000:00:00&end=2015-"
+                                                                                 + mesFim.toString() + "-01%2000:00:00";
+            break;
+        }
+        
+        console.log(url)
+        xhttp.open("GET", url, true)
+
+        xhttp.send()       
 }
 
 function pegarDadosPluviometria(){
@@ -180,12 +222,14 @@ function carregarContornosBairroRegional(map){
 
 
 function exibirOcorrencias(responseText){
-  
-    var jsonResposta = JSON.parse(responseText)
+    
+   // var jsonResposta = JSON.parse(responseText)
    // console.log(jsonResposta)
-    var ocorrencias = jsonResposta.feeds
+  //  var ocorrencias = jsonResposta.feeds
+    var ocorrencias = responseText
     var arrayLocalizacaoOcorrencias = []
     var mensagem = "Ponto"
+    
     
     for(i = 0; i < ocorrencias.length; i++){
        
@@ -247,18 +291,18 @@ map.addLayer({
                 "step",
                 ["get", "point_count"],
                 "#51bbd6",
-                100,
+                500,
                 "#f1f075",
-                750,
+                1000,
                 "#f28cb1"
             ],
             "circle-radius": [
                 "step",
                 ["get", "point_count"],
                 20,
-                100,
+                500,
                 30,
-                750,
+                1000,
                 40
             ]
         }
@@ -277,6 +321,5 @@ map.addLayer({
 
 
 });
-carregarContornosBairroRegional(map)
-
+setTimeout(carregarContornosBairroRegional(map), 10000);
 }   

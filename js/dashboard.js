@@ -18,7 +18,7 @@ function inicializar(){
             slider.oninput = function() {
                output.innerHTML = this.value;
                mostrarGraficoTemperatura()
-               pegarCasosArboviroses()
+               pegarCasosArboviroses(slider.value)
             }
 }
 
