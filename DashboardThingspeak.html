@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <!-- https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm -->
 </head>
 <body>
@@ -47,8 +48,13 @@
 				
 	    </div>
    		<div class="w3-half">
-   			 <h6 class="title">Temperatura</h6>
-	    	<p = id="chuva"></p>
+   			<!--  <h6 class="title">Temperatura</h6>
+	    	<p = id="chuva"></p> -->
+
+	    	<div class="container">
+ 			   <canvas id="grafico"></canvas>
+ 			</div>
+
 	    </div>
     </div>
   </div>
@@ -65,9 +71,73 @@
 
 		slider.oninput = function() {
 		  output.innerHTML = this.value;
-		   mostrarGraficoTemperatura()
+		  // mostrarGraficoTemperatura()
 		   pegarCasosArboviroses()
 		}
+
+
+
+		 let grafico = document.getElementById('grafico').getContext('2d');
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'arial';
+    Chart.defaults.global.defaultFontSize = 14;
+    Chart.defaults.global.defaultFontColor = '#FFFFF';
+
+    let massPopChart = new Chart(grafico, {
+      type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        datasets:[{
+          label:'População atingida',
+          data:[
+           
+            1810,
+            1530,
+            2065,
+            4175,
+            5910
+                   ],
+          //backgroundColor:'green',
+          backgroundColor:[
+            'rgba(255, 99, 132, 0.8)',
+             'rgba(255, 99, 132, 0.8)',
+              'rgba(255, 99, 132, 0.8)',
+               'rgba(255, 99, 132, 0.8)',
+                'rgba(255, 99, 132, 0.8)'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:3,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Casos',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
 	</script>
 
 </body>
