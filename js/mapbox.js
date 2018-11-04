@@ -12,13 +12,14 @@ function pegarCasosArboviroses(mes) {
                 if (xhttp.status = 200)
                        
                        if(semana == 5){
-                         console.log(resultado)
+                        // console.log(resultado)
                           exibirOcorrencias(resultado)
+                         
                         }else{
 
                             var jsonResposta = JSON.parse(this.responseText)
                             var ocorrencias = jsonResposta.feeds
-                            console.log(ocorrencias)
+                          //  console.log(ocorrencias)
                             resultado = resultado.concat(ocorrencias)
                             requisicao(mesInicio,mesFim,xhttp,semana)
                             semana++
@@ -63,7 +64,9 @@ function pegarDadosPluviometria(){
     xhttp.onreadystatechange = function (){
         if (xhttp.readyState == 4) {
             if (xhttp.status = 200)
-                exibirOcorrencias(this.responseText)
+                var jsonResposta = JSON.parse(this.responseText)
+                var pluviometria = jsonResposta.feeds
+                console.log(pluviometria)
         }
     }
     url = "http://api.thingspeak.com/channels/616353/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
@@ -165,14 +168,15 @@ function castelao(jsonRegionais, map){//itaperi
         features: [jsonRegionais.features[3],jsonRegionais.features[4]],
          }
         });
-
+        //cor = '#bce8fa'
+        cor = '#f44268'
         map.addLayer({
             'id': 'castelao',
             'type': 'fill',
             'source':'regionaisContornoCastelao',
             'layout': {},
             'paint': {
-                'fill-color': '#bce8fa',
+                'fill-color': cor ,
                 'fill-opacity': 0.8
             }
         });
@@ -195,7 +199,7 @@ function carregarContornosBairroRegional(map){
               'line-width': 3
           }
       });  
-
+        //fazer requisicao e de acordo com o valor, definir a cor do grafico
         pici(regionaisJson, map);
         castelao(regionaisJson, map);
         messejana(regionaisJson, map);
@@ -230,7 +234,7 @@ function exibirOcorrencias(responseText){
     var arrayLocalizacaoOcorrencias = []
     var mensagem = "Ponto"
     
-    
+     pegarDadosPluviometria()
     for(i = 0; i < ocorrencias.length; i++){
        
         var latitude  = parseFloat(ocorrencias[i].field7)
