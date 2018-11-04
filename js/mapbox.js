@@ -39,7 +39,8 @@ function selecionaSemanaCasosArboviroses(mesInicio, mesFim,xhttp,semana){
     xhttp.open("GET", url, true);
     xhttp.send();
 }
-
+//363
+//363
 function pici(jsonRegionais, map, cor){
     //r1, r3, centro,
     map.addSource("regionaisContornoPici", {
@@ -164,15 +165,96 @@ function carregarContornosBairroRegional(map, resultadoPluviometria){
             }
         });
 
-        console.log("aqui")
+
+
         //fazer requisicao e de acordo com o valor, definir a cor do grafico
-        console.log(resultadoPluviometria)
-        var cor  = '#111ddf'
-        pici(regionaisJson, map,cor);
-        castelao(regionaisJson, map,cor);
-        messejana(regionaisJson, map,cor);
-        edq(regionaisJson, map,cor);
+        // console.log(arrayCastelao)
+        // console.log(arrayPici)
+        // console.log(arrayEDQ)
+        // console.log(arrayMessejana)
+        calculaMedia(regionaisJson, map,resultadoPluviometria)
+        // var cor  = '#111ddf'
+        // pici(regionaisJson, map,resultadoPluviometria);
+        // castelao(regionaisJson, map,cor);
+        // messejana(regionaisJson, map,cor);
+        // edq(regionaisJson, map,cor);
     });
+}
+
+function calculaMedia(regionaisJson,map, resultadoPluviometria) {
+    var i;
+    var arrayPici =[];
+    var arrayEDQ =[];
+    var arrayMessejana =[];
+    var arrayCastelao =[];
+    var mediaPici = 0;
+    var mediaEDQ =0;
+    var mediaMessejana = 0;
+    var mediaCastelao = 0;
+    var somaPici = 0;
+    var somaEDQ = 0;
+    var somaMessejana = 0;
+    var somaCastelao= 0;
+
+    for (i = 0; i < resultadoPluviometria.length; i++) {
+
+        if(resultadoPluviometria[i].field7 == "363"){
+            arrayPici = arrayPici.concat(resultadoPluviometria[i]);
+            somaPici += parseFloat(resultadoPluviometria[i].field4);
+            mediaPici = somaPici / arrayPici.length;
+        }
+    }
+
+    for (i = 0; i < resultadoPluviometria.length; i++) {
+
+        if(resultadoPluviometria[i].field7 == "361"){
+            arrayEDQ = arrayEDQ.concat(resultadoPluviometria[i]);
+            somaEDQ += parseFloat(resultadoPluviometria[i].field4);
+            mediaEDQ = somaEDQ / arrayEDQ.length;
+        }
+    }
+
+    for (i = 0; i < resultadoPluviometria.length; i++) {
+
+        if(resultadoPluviometria[i].field7 == "364"){
+            arrayMessejana = arrayMessejana.concat(resultadoPluviometria[i])
+            somaMessejana += parseFloat(resultadoPluviometria[i].field4);
+            mediaMessejana = somaMessejana / arrayMessejana.length;
+        }
+    }
+
+    for (i = 0; i < resultadoPluviometria.length; i++) {
+
+        if(resultadoPluviometria[i].field7 == "362"){
+            arrayCastelao = arrayCastelao.concat(resultadoPluviometria[i])
+            somaCastelao += parseFloat(resultadoPluviometria[i].field4);
+            mediaCastelao = somaCastelao / arrayCastelao.length;
+        }
+    }
+
+    console.log(mediaPici)
+    console.log(mediaMessejana)
+    console.log(mediaEDQ)
+    console.log(mediaCastelao)
+
+    pici(regionaisJson, map,defineCor(mediaPici));
+    castelao(regionaisJson, map,defineCor(mediaCastelao));
+    messejana(regionaisJson, map,defineCor(mediaMessejana));
+    edq(regionaisJson, map, defineCor(mediaEDQ));
+
+}
+
+function defineCor(media) {
+    var cor = '';
+    if(media < 1){
+        cor = '#bce8fa';
+    }else if (media >= 1 && media < 2){
+        cor = '#6666ff'
+    } else {
+        cor = '#111ddf'
+    }
+
+    return cor
 }
 
 
@@ -215,7 +297,7 @@ function requisicaoDadosArbovirosesPluviometria(mes) {
             if (xhttp.status = 200)
 
                 if(semana === 5){
-                    // console.log(resultado)
+
                     //exibirDadosMapa(resultado, mes)
                     pegarDadosPluviometria(mes, resultado)
                 }else{
@@ -229,23 +311,6 @@ function requisicaoDadosArbovirosesPluviometria(mes) {
         }
     }
 }
-
-// function pegarDadosPluviometria(mes){
-//     var xhttp = new XMLHttpRequest();
-//
-//     xhttp.onreadystatechange = function (){
-//         if (xhttp.readyState === 4) {
-//             if (xhttp.status = 200)
-//                 var jsonResposta = JSON.parse(this.responseText)
-//             var pluviometria = jsonResposta.feeds
-//             console.log(pluviometria)
-//         }
-//     }
-//     url = "http://api.thingspeak.com/channels/616353/feeds.json?start=2015-05-01%2000:00:00&end=2015-06-01%2000:00:00"
-//     xhttp.open("GET", url, true)
-//     xhttp.send()
-//
-// }
 
 function pegarDadosPluviometria(mes, resultadoArbov) {
     var xhttp = new XMLHttpRequest();
