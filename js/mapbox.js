@@ -40,7 +40,6 @@ function selecionaSemanaCasosArboviroses(mesInicio, mesFim,xhttp,semana){
     xhttp.send();
 }
 //363
-//363
 function pici(jsonRegionais, map, cor){
     //r1, r3, centro,
     map.addSource("regionaisContornoPici", {
@@ -70,8 +69,8 @@ function edq(jsonRegionais, map, cor){
         type: "geojson",
         data: {
             type: "FeatureCollection",
-            totalFeatures: 2,
-            features: [jsonRegionais.features[1],jsonRegionais.features[5]],
+            totalFeatures: 1,
+            features: [jsonRegionais.features[1]],//,jsonRegionais.features[5]],
         }
     });
 
@@ -245,12 +244,42 @@ function calculaMedia(regionaisJson,map, resultadoPluviometria) {
 }
 
 function defineCor(media) {
+
+//mes2
+//0
+
+//mes3
+// 5.65
+// mapbox.js:235 4.4799999999999995
+// mapbox.js:236 5.21
+// mapbox.js:237 3.4699999999999998
+
+//mes 4
+// 14.114285714285714
+// mapbox.js:235 9.846428571428572
+// mapbox.js:236 9.75
+// mapbox.js:237 12.289285714285716
+
+//mes5
+//17.195454545454545
+// mapbox.js:235 11.372727272727273
+// mapbox.js:236 13.590909090909092
+// mapbox.js:237 12.713636363636367
+//
+
+//mes 6
+// 1.6791666666666665
+// mapbox.js:235 0.4083333333333334
+// mapbox.js:236 1.9666666666666666
+// mapbox.js:237 0
+
+console.log(media)
     var cor = '';
-    if(media < 1){
+    if(media < 6){
         cor = '#bce8fa';
-    }else if (media >= 1 && media < 2){
+    }else if (media >= 6 && media < 12){
         cor = '#6666ff'
-    } else {
+    } else if(media >= 12) {
         cor = '#111ddf'
     }
 
@@ -259,6 +288,13 @@ function defineCor(media) {
 
 
 function selecionaSemanaPluviometria(mesInicio, mesFim,xhttp,semana){
+    if(mesInicio > 1){
+        mesInicio = mesInicio - 1;
+    }
+    if(mesFim > 1){
+        mesFim = mesFim -1;
+    }
+
     var url = "";
     switch(semana) {
         case 1:
